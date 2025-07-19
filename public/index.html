@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChunRAG - AI-Powered Document Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="animations.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">C</div>
+                <h1><span>Chun</span>RAG</h1>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link active" data-page="home">🏠 <span>Home</span></a>
+                <a href="#" class="nav-link" data-page="upload">📄 <span>Uploads</span></a>
+                <a href="#" class="nav-link" data-page="chat">💬 <span>Chat</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                 <a href="#" class="nav-link" data-page="settings">⚙️ <span>Settings</span></a>
+                <div class="theme-switcher">
+                    <div class="theme-option active" title="Quantum" data-theme="quantum"></div>
+                    <div class="theme-option" title="Dusk" data-theme="dusk"></div>
+                    <div class="theme-option" title="Latte" data-theme="latte"></div>
+                    <div class="theme-option" title="Odyssey" data-theme="odyssey"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Home Page -->
+            <div id="home" class="page active">
+                <div class="hero">
+                    <h2 class="gradient-flow">Welcome to <span>Chun</span>RAG</h2>
+                    <p class="hero-description">
+                        Your intelligent document chat assistant powered by advanced RAG technology. Upload documents to chat with your content, 
+                        or use our powerful AI models for general conversations.
+                    </p>
+                    <div class="hero-features">
+                        <div class="feature float">
+                            <div class="feature-icon">📄</div>
+                            <h3>Document Upload</h3>
+                            <p>Upload text documents and chat with their content using advanced Retrieval Augmented Generation technology.</p>
+                        </div>
+                        <div class="feature float" style="animation-delay: 0.3s;">
+                            <div class="feature-icon">🤖</div>
+                            <h3>Multiple AI Models</h3>
+                            <p>Choose from various AI providers including Gemini, OpenRouter, Cohere, Mistral, and more.</p>
+                        </div>
+                        <div class="feature float" style="animation-delay: 0.6s;">
+                            <div class="feature-icon">🔧</div>
+                            <h3>Customizable Settings</h3>
+                            <p>Fine-tune your AI experience with custom system prompts and model parameters.</p>
+                        </div>
+                    </div>
+                    <div class="hero-banner gradient-flow">
+                        <div class="hero-banner-content">
+                            <h3>Powerful Document Intelligence</h3>
+                            <p>ChunRAG seamlessly processes your documents and provides AI-powered insights and answers based on your content.</p>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary sparkle-btn" onclick="showPage('upload')">
+                            <span>Upload Documents</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="showPage('chat')">
+                            <span>Start Chatting</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Page -->
+            <div id="upload" class="page">
+                <div class="upload-container">
+                    <h2>Document Management</h2>
+                    
+                    <div class="upload-section">
+                        <h3>Upload New Document</h3>
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">📁</div>
+                            <p>Drop your document here or click to browse</p>
+                            <small>Supported formats: TXT, MD, CSV, PDF, DOCX</small>
+                            <input type="file" id="fileInput" accept=".txt,.md,.csv,.pdf,.docx" style="display: none;">
+                            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                                Choose File
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="documents-section">
+                        <h3>Uploaded Documents</h3>
+                        <div id="documentsList" class="documents-list">
+                            <!-- Documents will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Page -->
+            <div id="chat" class="page">
+                <div class="chat-layout">
+                    <div class="chat-sidebar">
+                        <div class="chat-sidebar-header">
+                            <h3>🤖 AI Configuration</h3>
+                            <button class="btn btn-icon btn-small" onclick="toggleChatSidebar()" title="Collapse">
+                                <span>←</span>
+                            </button>
+                        </div>
+                        
+                        <div class="chat-sidebar-content">
+                            <div class="config-section">
+                                <label class="config-label">🏢 Provider</label>
+                                <select id="providerSelect" class="select">
+                                    <option value="">Select Provider</option>
+                                </select>
+                            </div>
+                            
+                            <div class="config-section">
+                                <label class="config-label">🧠 Model</label>
+                                <select id="modelSelect" class="select">
+                                    <option value="">Select Model</option>
+                                </select>
+                            </div>
+                            
+                            <div class="config-section">
+                                <label class="config-label">⚙️ Quick Parameters</label>
+                                <div class="quick-params">
+                                    <div class="param-item">
+                                        <span>🌡️ Temp</span>
+                                        <input type="range" id="chatTemperature" min="0" max="1" step="0.1" value="0.7">
+                                        <span id="chatTempValue">0.7</span>
+                                    </div>
+                                    <div class="param-item">
+                                        <span>📏 Tokens</span>
+                                        <input type="range" id="chatMaxTokens" min="512" max="40960" step="512" value="2048">
+                                        <span id="chatTokensValue">2048</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="config-section">
+                                <button class="btn btn-secondary btn-full" onclick="toggleSystemPrompt()">
+                                    📝 System Prompt
+                                </button>
+                            </div>
+                            
+                            <div class="config-section">
+                                <button class="btn btn-accent btn-full" onclick="clearChat()">
+                                    🗑️ Clear Chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-main">
+                        <div class="chat-header">
+                            <div class="chat-title">
+                                <h2>💬 ChunRAG Assistant</h2>
+                                <div class="chat-status" id="chatStatus">
+                                    <span class="status-dot"></span>
+                                    <span>Ready to chat</span>
+                                </div>
+                            </div>
+                            <div class="chat-actions">
+                                <button class="btn btn-icon" id="toggleConfigSidebarBtn" onclick="toggleChatSidebar()" title="Toggle AI Configuration">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10.76a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5.76Z"/><path d="M7 17v-4.24a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4.24"/></svg>
+                                </button>
+                                <button class="btn btn-icon" onclick="exportChat()" title="Export Chat">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                </button>
+                                <button class="btn btn-icon" onclick="toggleChatSettings()" title="Chat Settings">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                                 </button>
+                             </div>
+                         </div>
+
+                        <div id="systemPromptSection" class="system-prompt-section" style="display: none;">
+                            <div class="system-prompt-header">
+                                <h4>📝 System Prompt</h4>
+                                <button class="btn btn-small" onclick="toggleSystemPrompt()">✕</button>
+                            </div>
+                            <textarea id="systemPrompt" placeholder="Define how the AI should behave and respond..." rows="4"></textarea>
+                            <div class="system-prompt-footer">
+                                <button class="btn btn-small btn-secondary" onclick="resetSystemPrompt()">Reset</button>
+                                <button class="btn btn-small btn-primary" onclick="saveSystemPrompt()">Apply</button>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message bot-message welcome-message">
+                                <div class="message-avatar">🤖</div>
+                                <div class="message-content">
+                                    <div class="welcome-content">
+                                        <h3>Welcome to <span class="gradient-text">ChunRAG</span>! 👋</h3>
+                                        <p>I'm your intelligent document assistant powered by advanced RAG technology.</p>
+                                        <div class="welcome-features">
+                                            <div class="feature-pill">💬 General AI Chat</div>
+                                            <div class="feature-pill">📄 Document Q&A</div>
+                                            <div class="feature-pill">🔍 Smart Context Search</div>
+                                        </div>
+                                        <p><strong>How can I assist you today?</strong></p>
+                                    </div>
+                                    <span class="message-timestamp">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-input-container">
+                            <div class="chat-input">
+                                <textarea id="messageInput" placeholder="Type your message here... (Shift+Enter for new line)" rows="1"></textarea>
+                                <button id="sendButton" class="btn btn-primary send-button" onclick="sendMessage()" title="Send Message">
+                                    <span class="send-icon">➤</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings" class="page">
+                <div class="settings-container">
+                    <div class="settings-header">
+                        <h2>⚙️ Settings & Configuration</h2>
+                        <p class="settings-subtitle">Manage your API keys, model parameters, and system preferences</p>
+                    </div>
+
+                    <div class="settings-tabs">
+                        <button class="tab-link active" onclick="openTab(event, 'apiKeysTab')">
+                            <span class="tab-icon">🔑</span>
+                            <span>API Management</span>
+                        </button>
+                        <button class="tab-link" onclick="openTab(event, 'modelParamsTab')">
+                            <span class="tab-icon">⚙️</span>
+                            <span>Model Parameters</span>
+                        </button>
+                        <button class="tab-link" onclick="openTab(event, 'systemTab')">
+                            <span class="tab-icon">🛠️</span>
+                            <span>System</span>
+                        </button>
+                    </div>
+
+                    <div id="apiKeysTab" class="tab-content active">
+                        <div class="settings-section">
+                            <div class="section-header">
+                                <h3>🔐 API Key Management</h3>
+                                <div class="section-actions">
+                                    <button class="btn btn-small btn-secondary" onclick="testAllConnections()">
+                                        🔍 Test All
+                                    </button>
+                                    <button class="btn btn-small btn-accent" onclick="clearAllApiKeys()">
+                                        🗑️ Clear All
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="settings-description">
+                                Securely manage your API keys for different LLM providers. Keys are encrypted and stored locally on the server.
+                                <strong>Each provider supports multiple keys for load balancing.</strong>
+                            </p>
+                            
+                            <div class="api-providers-grid" id="apiProvidersGrid">
+                                <!-- Dynamic provider cards will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="modelParamsTab" class="tab-content">
+                        <div class="settings-section">
+                            <div class="section-header">
+                                <h3>🎛️ Default Model Parameters</h3>
+                                <div class="section-actions">
+                                    <button class="btn btn-small btn-secondary" onclick="resetModelParameters()">
+                                        🔄 Reset to Defaults
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="settings-description">
+                                Fine-tune the default behavior of AI models. These settings serve as defaults for new chats and can be adjusted per conversation.
+                            </p>
+                            
+                            <div class="parameter-grid">
+                                <div class="parameter-card">
+                                    <div class="parameter-header">
+                                        <h4>🌡️ Temperature</h4>
+                                        <span class="parameter-value" id="temperatureValue">0.7</span>
+                                    </div>
+                                    <input type="range" id="temperature" min="0" max="1" step="0.05" value="0.7" class="parameter-slider">
+                                    <div class="parameter-description">
+                                        <span>Conservative</span>
+                                        <span>Creative</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="parameter-card">
+                                    <div class="parameter-header">
+                                        <h4>🎲 Top-P (Nucleus)</h4>
+                                        <span class="parameter-value" id="topPValue">0.9</span>
+                                    </div>
+                                    <input type="range" id="topP" min="0" max="1" step="0.05" value="0.9" class="parameter-slider">
+                                    <div class="parameter-description">
+                                        <span>Focused</span>
+                                        <span>Diverse</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="parameter-card">
+                                    <div class="parameter-header">
+                                        <h4>📏 Max Tokens</h4>
+                                        <span class="parameter-value" id="maxTokensValue">2048</span>
+                                    </div>
+                                    <input type="range" id="maxTokens" min="512" max="40960" step="512" value="2048" class="parameter-slider">
+                                    <div class="parameter-description">
+                                        <span>Short (512)</span>
+                                        <span>Extended (40K)</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="parameter-card">
+                                    <div class="parameter-header">
+                                        <h4>🔄 Top-K</h4>
+                                        <span class="parameter-value" id="topKValue">50</span>
+                                    </div>
+                                    <input type="range" id="topK" min="1" max="100" step="1" value="50" class="parameter-slider">
+                                    <div class="parameter-description">
+                                        <span>Precise (1)</span>
+                                        <span>Varied (100)</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="parameter-card">
+                                    <div class="parameter-header">
+                                        <h4>🎯 Frequency Penalty</h4>
+                                        <span class="parameter-value" id="frequencyPenaltyValue">0.0</span>
+                                    </div>
+                                    <input type="range" id="frequencyPenalty" min="0" max="2" step="0.1" value="0" class="parameter-slider">
+                                    <div class="parameter-description">
+                                        <span>Repetitive</span>
+                                        <span>Novel</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="parameter-card">
+                                    <div class="parameter-header">
+                                        <h4>🎪 Presence Penalty</h4>
+                                        <span class="parameter-value" id="presencePenaltyValue">0.0</span>
+                                    </div>
+                                    <input type="range" id="presencePenalty" min="0" max="2" step="0.1" value="0" class="parameter-slider">
+                                    <div class="parameter-description">
+                                        <span>On-topic</span>
+                                        <span>Diverse Topics</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="parameter-presets">
+                                <h4>🎨 Quick Presets</h4>
+                                <div class="preset-buttons">
+                                    <button class="btn btn-small preset-btn" onclick="applyPreset('conservative')">
+                                        🛡️ Conservative
+                                    </button>
+                                    <button class="btn btn-small preset-btn" onclick="applyPreset('balanced')">
+                                        ⚖️ Balanced
+                                    </button>
+                                    <button class="btn btn-small preset-btn" onclick="applyPreset('creative')">
+                                        🎨 Creative
+                                    </button>
+                                    <button class="btn btn-small preset-btn" onclick="applyPreset('experimental')">
+                                        🧪 Experimental
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-large" onclick="saveModelParameters()">
+                                💾 Save Parameters
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="systemTab" class="tab-content">
+                        <div class="settings-section">
+                            <div class="section-header">
+                                <h3>🛠️ System Configuration</h3>
+                            </div>
+                            <p class="settings-description">
+                                Configure system-wide settings and preferences for ChunRAG.
+                            </p>
+                            
+                            <div class="system-settings">
+                            </div>
+                            
+                            <div class="danger-zone">
+                                <h4>⚠️ Danger Zone</h4>
+                                <div class="danger-actions">
+                                    <button class="btn btn-danger" onclick="clearAllData()">
+                                        🗑️ Clear All Data
+                                    </button>
+                                    <button class="btn btn-danger" onclick="resetToDefaults()">
+                                        🔄 Reset to Factory Defaults
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

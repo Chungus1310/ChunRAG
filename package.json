@@ -1,0 +1,95 @@
+{
+  "name": "chunrag",
+  "version": "1.0.0",
+  "description": "A web application that combines Retrieval-Augmented Generation (RAG) capabilities with a flexible LLM provider system",
+  "main": "electron-main.cjs",
+  "homepage": "./",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "electron": "electron .",
+    "electron-dev": "NODE_ENV=development electron .",
+    "prebuild": "node build-cleanup.js",
+    "build-win": "npm run prebuild && electron-builder --win",
+    "build-win-portable": "npm run prebuild && electron-builder --win portable",
+    "build": "npm run prebuild && electron-builder",
+    "dist": "npm run build-win",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "rag",
+    "llm",
+    "ai",
+    "chatbot",
+    "document-processing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/genai": "^1.10.0",
+    "@huggingface/inference": "^4.5.2",
+    "@mistralai/mistralai": "^1.7.4",
+    "cohere-ai": "^7.17.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mammoth": "^1.9.1",
+    "marked": "^16.0.0",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.28.0",
+    "pdf-parse": "^1.1.1",
+    "vectra": "^0.4.4"
+  },
+  "devDependencies": {
+    "electron": "^37.2.3",
+    "electron-builder": "^26.0.12",
+    "nodemon": "^3.0.3"
+  },
+  "type": "module",
+  "build": {
+    "appId": "com.chunrag.app",
+    "productName": "ChunRAG",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!.git/**/*",
+      "!dist/**/*",
+      "!*.log",
+      "!node_modules/.cache/**/*",
+      "!.vscode/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "test/",
+        "to": "test/",
+        "filter": ["**/*"]
+      }
+    ],
+    "asar": false,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "public/icon.ico",
+      "uninstallerIcon": "public/icon.ico"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.exe"
+    }
+  }
+}
