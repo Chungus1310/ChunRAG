@@ -29,14 +29,17 @@
 ## 🎯 What is ChunRAG?
 
 ChunRAG is a **powerful web application** that seamlessly combines **Retrieval-Augmented Generation (RAG)** capabilities with a flexible **multi-provider LLM system**. Whether you want to chat with your documents or have general AI conversations, ChunRAG has got you covered! 
-
+<img width="1920" height="926" alt="{78B54677-C17E-4091-88FD-551EAD1CAA05}" src="https://github.com/user-attachments/assets/15642682-306c-4090-a16a-256d7522fcda" />
 <details>
 <summary>🎬 <strong>See ChunRAG in Action</strong></summary>
 
 ```
 🏠 Upload your documents → 📄 AI processes & indexes them → 💬 Chat naturally → 🎯 Get accurate, context-aware answers!
 ```
-
+<img width="1920" height="920" alt="{AD1315E5-0A1C-4D9E-9042-C1369FC70B5C}" src="https://github.com/user-attachments/assets/ce824be5-dadc-4e08-8aef-086c25ba566a" />
+<img width="1920" height="922" alt="{11F07E20-C03C-41AF-B582-DB1863AF3B63}" src="https://github.com/user-attachments/assets/d343cea5-41be-46dd-a53c-145c64455b48" />
+<img width="1920" height="918" alt="{26C1553D-ABD5-4AEA-95B6-5AC530456880}" src="https://github.com/user-attachments/assets/3ddde3e0-0f64-42c0-9ac0-d86158af55b7" />
+<img width="1920" height="926" alt="{78B54677-C17E-4091-88FD-551EAD1CAA05}" src="https://github.com/user-attachments/assets/15642682-306c-4090-a16a-256d7522fcda" />
 </details>
 
 ---
@@ -319,15 +322,6 @@ ChunRAG/
 Flexible provider for custom endpoints and routing.
 </details>
 
----
-
-## 🎬 Demo
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/Chungus1310/ChunRAG/main/demo.gif" alt="ChunRAG Demo" width="600"/>
-<br>
-<i>See ChunRAG in action! (Demo GIF placeholder)</i>
-</div>
 
 ---
 
@@ -353,16 +347,6 @@ You can use ChunRAG locally for document chat and general AI, but API calls requ
 Yes! ChunRAG is available as an Electron desktop app for Windows.
 </details>
 
----
-
-## 🖼️ Showcase
-
-<div align="center">
-<img src="https://raw.githubusercontent.com/Chungus1310/ChunRAG/main/screenshot1.png" alt="ChunRAG Screenshot" width="400"/>
-<img src="https://raw.githubusercontent.com/Chungus1310/ChunRAG/main/screenshot2.png" alt="ChunRAG Screenshot" width="400"/>
-<br>
-<i>Share your own screenshots and stories in the Discussions tab!</i>
-</div>
 
 ---
 
@@ -507,16 +491,6 @@ We love contributions! Here's how you can help make ChunRAG even better:
 7. **🎯 Open a Pull Request**
 
 </details>
-
-### 🎯 **Areas We Need Help With**
-
-- [ ] 🌐 **Internationalization (i18n)**
-- [ ] 📱 **Mobile app version**
-- [ ] 🔌 **More AI provider integrations**
-- [ ] 🎨 **Additional themes**
-- [ ] 📊 **Analytics and insights**
-- [ ] 🔒 **Enhanced security features**
-- [ ] 📖 **Video tutorials**
 
 ---
 
